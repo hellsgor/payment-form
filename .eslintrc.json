@@ -18,6 +18,21 @@
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/explicit-module-boundary-types": "error"
+    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "no-var": "error",
+    "no-console": "warn",
+    "no-alert": "warn"
   }
 }
