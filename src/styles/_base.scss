@@ -1,0 +1,13 @@
+body {
+  display: flex;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: $background;
+  place-items: center;
+}
+
+#app {
+  max-width: 1280px;
+  padding: 2rem;
+  margin: 0 auto;
+}
