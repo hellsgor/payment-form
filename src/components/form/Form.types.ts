@@ -5,7 +5,9 @@ export type FormProps = {
   title?: string;
   controls: number[];
   button: {
-    text: string;
+    text?: string;
+    type?: string;
+    classes?: string;
   };
 };
 
