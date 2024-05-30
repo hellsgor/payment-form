@@ -1,0 +1,17 @@
+@import '@styles/_colors.scss';
+
+.form {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  flex-direction: column;
+  background-color: transparent;
+  row-gap: 2rem;
+  filter: drop-shadow(0 0 4rem #646cffaa);
+  
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+  }
+}

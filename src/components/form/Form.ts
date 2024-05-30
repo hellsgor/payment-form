@@ -1,3 +1,4 @@
+import './Form.scss';
 import { FormProps, IForm } from './Form.types';
 import { el, setChildren } from 'redom';
 
