@@ -1,0 +1,29 @@
+@import '@styles/_colors.scss';
+
+.button {
+  width: fit-content;
+  min-width: 120px;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: $accent;
+  color: $text;
+  cursor: pointer;
+  transition: background-color .3s;
+  
+  &:hover {
+    background-color: $accent-hover;
+  }
+  
+  &:active {
+    background-color: $accent-active;
+  }
+  
+  &:disabled {
+    background-color: $text-secondary;
+    cursor: default;
+  }
+}

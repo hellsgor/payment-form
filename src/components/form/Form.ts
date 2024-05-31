@@ -1,6 +1,7 @@
 import './Form.scss';
 import { FormProps, IForm } from './Form.types';
 import { el, setChildren } from 'redom';
+import { ButtonInstance } from '../button/Button';
 
 export class FormComponent implements IForm {
   props: FormProps;
@@ -19,7 +20,8 @@ export class FormComponent implements IForm {
   }
 
   create(): void {
-    const children: Array<HTMLElement | HTMLDivElement> = [];
+    const children: Array<HTMLElement | HTMLDivElement | HTMLButtonElement> =
+      [];
 
     if (this.props.title) {
       this.$title = el('h2', { className: 'form__heading' }, this.props.title);
@@ -37,15 +39,14 @@ export class FormComponent implements IForm {
     });
     children.push(this.$controls);
 
-    this.$subButton = el(
-      'button',
-      {
-        type: 'submit',
-        className: 'form__submit-button',
-      },
-      this.props.button.text,
-    );
-    children.push(this.$subButton);
+    this.$subButton = ButtonInstance.create({
+      text: this.props.button.text || null,
+      type: 'submit',
+      classes: `form__button${
+        this.props.button.classes ? ' ' + this.props.button.classes : ''
+      }`,
+    });
+    this.$subButton && children.push(this.$subButton);
 
     this.$form = el('form', { name: this.props.form.name, className: 'form' });
     setChildren(this.$form, children);
