@@ -35,7 +35,9 @@ class ControlComponent {
       return labelElem;
     };
 
-    const control: HTMLDivElement = el('div', { className: 'control' });
+    const control: HTMLDivElement = el('div', {
+      className: `${props.className} control`,
+    });
     setChildren(
       control,
       props.labelText
