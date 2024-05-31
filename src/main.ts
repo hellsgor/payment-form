@@ -9,7 +9,16 @@ const paymentForm: IForm = new FormComponent({
     name: 'payment',
   },
   title: 'Payment form',
-  controls: [1, 2, 3],
+  controls: [
+    {
+      type: 'number',
+      name: 'number',
+      required: true,
+      autocomplete: 'cc-number',
+      placeholder: 'XXXX-XXXX-XXXX-XXXX',
+      labelText: 'Card number',
+    },
+  ],
   button: {
     text: 'Pay',
   },
