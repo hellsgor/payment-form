@@ -4,7 +4,9 @@ import { ControlProps, InputProps } from './Control.types';
 class ControlComponent {
   create(props: ControlProps): HTMLDivElement {
     const id: string | null =
-      props.id || props.labelText ? `random-id-${Math.random() * 1000}` : null;
+      props.id || props.labelText
+        ? `random-id-${(Math.random() * 10000).toFixed(0)}`
+        : null;
 
     const createInput = (): HTMLInputElement => {
       const inputProps: InputProps = {
@@ -16,7 +18,7 @@ class ControlComponent {
       if (props.required) inputProps.required = true;
       if (props.autocomplete) inputProps.autocomplete = props.autocomplete;
       if (props.placeholder) inputProps.placeholder = props.placeholder;
-      if (id) inputProps.placeholder = id;
+      if (id) inputProps.id = id;
 
       return el('input', inputProps);
     };
