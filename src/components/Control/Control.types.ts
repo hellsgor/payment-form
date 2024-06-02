@@ -6,6 +6,7 @@ export interface InputProps {
   autocomplete?: string;
   placeholder?: string;
   id?: string;
+  inputmode?: string;
 }
 
 export type LabelProps = {
