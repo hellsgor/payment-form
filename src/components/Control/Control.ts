@@ -1,3 +1,4 @@
+import './Control.scss';
 import { el, setChildren } from 'redom';
 import { ControlProps, InputProps } from './Control.types';
 
@@ -41,7 +42,7 @@ class ControlComponent {
     setChildren(
       control,
       props.labelText
-        ? [createLabel(), createInput(), createErrorBlock()]
+        ? [createInput(), createLabel(), createErrorBlock()]
         : [createInput(), createErrorBlock()],
     );
     return control;
