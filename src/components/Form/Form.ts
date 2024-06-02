@@ -1,7 +1,7 @@
 import './Form.scss';
 import { FormProps, IForm } from './Form.types';
 import { el, setChildren } from 'redom';
-import { ButtonInstance } from '../button/Button';
+import { ButtonInstance } from '../Button/Button';
 import { controlInstance } from '../Control/Control';
 
 export class FormComponent implements IForm {
@@ -13,10 +13,10 @@ export class FormComponent implements IForm {
 
   constructor(props: FormProps) {
     this.props = props;
+    this.create();
   }
 
   get form(): HTMLFormElement {
-    !this.$form && this.create();
     return this.$form!;
   }
 
