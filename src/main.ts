@@ -1,19 +1,19 @@
 import './styles/index.scss';
 import { el, mount } from 'redom';
-import { FormComponent } from './components/Form/Form';
-import { IForm } from './components/Form/Form.types';
 import { formsConfig } from './config/forms';
+import { IPaymentForm } from './components/PaymentForm/PaymentForm.types';
+import { PaymentFormComponent } from './components/PaymentForm/PaymentForm';
 
-const paymentAmountInputName: string = 'payment-amount';
 const paymentFormConfigKey: string = 'paymentForm';
 const app = el('#app');
 
-if (formsConfig['paymentForm']) {
-  paymentForm = new FormComponent(formsConfig['paymentForm']);
-let paymentForm: IForm | null = null;
+let paymentForm: IPaymentForm | null = null;
 
 if (formsConfig[paymentFormConfigKey]) {
-  paymentForm = new FormComponent(formsConfig[paymentFormConfigKey]);
+  paymentForm = new PaymentFormComponent(
+    formsConfig[paymentFormConfigKey],
+    99.99,
+  );
   mount(app, paymentForm.form);
   mount(document.body, app);
 }
