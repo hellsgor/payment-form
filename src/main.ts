@@ -45,6 +45,11 @@ const paymentForm: IForm = new FormComponent({
       placeholder: 'Email for check',
       labelText: 'Email',
     },
+    {
+      name: 'payment-amount',
+      required: true,
+      hidden: true,
+    },
   ],
   button: {
     text: 'Pay',

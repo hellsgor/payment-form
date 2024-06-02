@@ -20,6 +20,7 @@ class ControlComponent {
       if (props.autocomplete) inputProps.autocomplete = props.autocomplete;
       if (props.placeholder) inputProps.placeholder = props.placeholder;
       if (props.inputmode) inputProps.inputmode = props.inputmode;
+      if (props.hidden) inputProps.hidden = props.hidden;
       if (id) inputProps.id = id;
 
       return el('input', inputProps);
