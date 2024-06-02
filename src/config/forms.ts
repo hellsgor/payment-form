@@ -43,11 +43,6 @@ export const formsConfig: Config<FormProps> = {
         placeholder: 'Email for check',
         labelText: 'Email',
       },
-      {
-        name: 'payment-amount',
-        required: true,
-        hidden: true,
-      },
     ],
     button: {
       text: 'Pay',
