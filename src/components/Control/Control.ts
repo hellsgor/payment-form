@@ -21,6 +21,7 @@ class ControlComponent {
       if (props.placeholder) inputProps.placeholder = props.placeholder;
       if (props.inputmode) inputProps.inputmode = props.inputmode;
       if (props.hidden) inputProps.hidden = props.hidden;
+      if (props.value) inputProps.value = props.value;
       if (id) inputProps.id = id;
 
       return el('input', inputProps);
@@ -39,16 +40,18 @@ class ControlComponent {
     };
 
     const control: HTMLDivElement = el('div', {
-      className: `${props.className} control`,
+      className: props.hidden
+        ? `${props.className} control control_hidden`
+        : `${props.className} control`,
     });
-    setChildren(
-      control,
-      props.labelText
-        ? [createInput(), createLabel(), createErrorBlock()]
-        : [createInput(), createErrorBlock()],
-    );
+
+    const controlChildrenArray: HTMLElement[] = [createInput()];
+    if (props.labelText) controlChildrenArray.push(createLabel());
+    if (!props.hidden) controlChildrenArray.push(createErrorBlock());
+    setChildren(control, controlChildrenArray);
+
     return control;
   }
 }
 
-export const controlInstance = new ControlComponent();
+export const controlInstance: ControlComponent = new ControlComponent();

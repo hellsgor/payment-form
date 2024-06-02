@@ -8,6 +8,7 @@ export interface InputProps {
   id?: string;
   inputmode?: string;
   hidden?: boolean;
+  value?: number | string;
 }
 
 export type LabelProps = {
