@@ -1,9 +1,11 @@
+import { ControlProps } from '../Control/Control.types';
+
 export type FormProps = {
   form: {
     name: string;
   };
   title?: string;
-  controls: number[];
+  controls: Omit<ControlProps, 'className'>[];
   button: {
     text?: string;
     type?: string;

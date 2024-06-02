@@ -2,6 +2,7 @@ import './Form.scss';
 import { FormProps, IForm } from './Form.types';
 import { el, setChildren } from 'redom';
 import { ButtonInstance } from '../button/Button';
+import { controlInstance } from '../Control/Control';
 
 export class FormComponent implements IForm {
   props: FormProps;
@@ -29,10 +30,10 @@ export class FormComponent implements IForm {
     }
 
     this.$controls = el('div', { className: 'form__controls' });
-    this.props.controls.forEach((control) => {
+    this.props.controls.forEach((controlProps) => {
       this.$controls?.appendChild(
-        el('input', {
-          name: control,
+        controlInstance.create({
+          ...controlProps,
           className: 'form__control',
         }),
       );

@@ -1,13 +1,17 @@
 body {
   display: flex;
+  overflow-y: auto;
   min-width: 100vw;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: $background;
   place-items: center;
 }
 
 #app {
   max-width: 1280px;
-  padding: 2rem;
   margin: 0 auto;
+  
+  @media(max-width: 399px) {
+    padding: 0 16px;
+  }
 }
