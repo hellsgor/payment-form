@@ -13,10 +13,10 @@ export class FormComponent implements IForm {
 
   constructor(props: FormProps) {
     this.props = props;
+    this.create();
   }
 
   get form(): HTMLFormElement {
-    !this.$form && this.create();
     return this.$form!;
   }
 
