@@ -1,5 +1,5 @@
 import { Config } from '../types/configs';
-import { FormProps } from '../components/form/Form.types';
+import { FormProps } from '../components/Form/Form.types';
 
 export const formsConfig: Config<FormProps> = {
   paymentForm: {
