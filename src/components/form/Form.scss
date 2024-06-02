@@ -2,16 +2,18 @@
 
 .form {
   display: flex;
-  width: 100%;
-  max-width: 400px;
+  width: 400px;
+  padding: 2rem;
+  border-radius: 8px;
   flex-direction: column;
   align-items: center;
-  background-color: transparent;
+  background-color: $background-transparently;
   row-gap: 2rem;
-  filter: drop-shadow(0 0 4rem #646cffaa);
+  filter: drop-shadow(0 0 6rem #646cffaa);
   
   &__controls {
     display: flex;
+    width: 100%;
     flex-direction: column;
     row-gap: 1.5rem;
   }
