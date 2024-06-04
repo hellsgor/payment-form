@@ -1,3 +1,10 @@
+import { InputMask } from 'imask/esm/index';
+
+export interface IControl {
+  $controlElem: HTMLDivElement;
+  mask: null | InputMask;
+}
+
 export interface InputProps {
   className: string;
   type?: string;

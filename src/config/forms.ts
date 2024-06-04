@@ -1,5 +1,5 @@
-import { Config } from '../types/configs';
 import { FormProps } from '../components/Form/Form.types';
+import { Config } from '../types/configs';
 
 export const formsConfig: Config<FormProps> = {
   paymentForm: {
@@ -9,31 +9,34 @@ export const formsConfig: Config<FormProps> = {
     title: 'Payment form',
     controls: [
       {
-        type: 'number',
+        type: 'text',
         name: 'number',
         required: true,
         autocomplete: 'cc-number',
-        placeholder: 'XXXX-XXXX-XXXX-XXXX',
+        placeholder: '0000 0000 0000 0000',
         labelText: 'Card number',
         inputmode: 'numeric',
+        mask: '0000 0000 0000 0000 [00]',
       },
       {
         type: 'text',
-        name: 'expiration-date',
+        name: 'date',
         required: true,
         autocomplete: 'cc-exp',
-        placeholder: 'MM/YY',
+        placeholder: 'mm/yy',
         labelText: 'Expiration Date',
         inputmode: 'numeric',
+        mask: '00/00',
       },
       {
-        type: 'number',
+        type: 'text',
         name: 'code',
         required: true,
         autocomplete: 'cc-csc',
-        placeholder: 'XXX',
+        placeholder: '000',
         labelText: 'CVC/CVV',
         inputmode: 'numeric',
+        mask: '000',
       },
       {
         type: 'email',
@@ -42,6 +45,7 @@ export const formsConfig: Config<FormProps> = {
         autocomplete: 'email',
         placeholder: 'Email for check',
         labelText: 'Email',
+        mask: '',
       },
     ],
     button: {

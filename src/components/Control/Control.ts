@@ -1,9 +1,12 @@
-import './Control.scss';
+import IMask, { InputMask } from 'imask';
 import { el, setChildren } from 'redom';
-import { ControlProps, InputProps } from './Control.types';
+import './Control.scss';
+import { ControlProps, IControl, InputProps } from './Control.types';
 
 class ControlComponent {
-  create(props: ControlProps): HTMLDivElement {
+  create(props: ControlProps): IControl {
+    let mask: null | InputMask = null;
+
     const id: string | null =
       props.id || props.labelText
         ? `random-id-${(Math.random() * 10000).toFixed(0)}`
@@ -24,7 +27,10 @@ class ControlComponent {
       if (props.value) inputProps.value = props.value;
       if (id) inputProps.id = id;
 
-      return el('input', inputProps);
+      const input = el('input', inputProps);
+      mask = props.mask ? IMask(input, { mask: props.mask }) : null;
+
+      return input;
     };
 
     const createErrorBlock = (): HTMLParagraphElement =>
@@ -39,16 +45,19 @@ class ControlComponent {
       return labelElem;
     };
 
-    const control: HTMLDivElement = el('div', {
-      className: props.hidden
-        ? `${props.className} control control_hidden`
-        : `${props.className} control`,
-    });
+    const control: IControl = {
+      $controlElem: el('div', {
+        className: props.hidden
+          ? `${props.className} control control_hidden`
+          : `${props.className} control`,
+      }),
+      mask: mask,
+    };
 
     const controlChildrenArray: HTMLElement[] = [createInput()];
     if (props.labelText) controlChildrenArray.push(createLabel());
     if (!props.hidden) controlChildrenArray.push(createErrorBlock());
-    setChildren(control, controlChildrenArray);
+    setChildren(control.$controlElem, controlChildrenArray);
 
     return control;
   }
