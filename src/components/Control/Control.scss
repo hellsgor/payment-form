@@ -14,7 +14,7 @@
     border-radius: 0;
     border-bottom: 1px solid $accent;
     order: 20;
-    background-color: transparent;
+    background-color: $background-secondary;
     color: $text;
     transition: border-color 0.3s ease-in-out;
 
@@ -41,6 +41,18 @@
     &_with-error {
       border-bottom-color: $error !important;
     }
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    box-shadow: 0 0 0px 1000px $background-secondary inset !important;
+    background-color: padding-box !important;
+
+    -webkit-text-fill-color: $text !important;
+    -webkit-box-shadow: 0 0 0px 1000px $background-secondary inset !important;
+    -webkit-background-clip: padding-box !important;
   }
 
   &__label {
