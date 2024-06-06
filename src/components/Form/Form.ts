@@ -38,12 +38,7 @@ export class FormComponent implements IForm {
         className: 'form__control',
       });
       this.$controls?.appendChild(control.$controlElem);
-      this.controls.push(
-        controlInstance.create({
-          ...controlProps,
-          className: 'form__control',
-        }),
-      );
+      this.controls.push(control);
     });
 
     children.push(this.$controls);
