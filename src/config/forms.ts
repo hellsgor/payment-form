@@ -1,5 +1,6 @@
-import { Config } from '../types/configs';
 import { FormProps } from '../components/Form/Form.types';
+import { Config } from '../types/configs';
+import { maskConfigs } from './masks';
 
 export const formsConfig: Config<FormProps> = {
   paymentForm: {
@@ -9,31 +10,34 @@ export const formsConfig: Config<FormProps> = {
     title: 'Payment form',
     controls: [
       {
-        type: 'number',
+        type: 'text',
         name: 'number',
         required: true,
         autocomplete: 'cc-number',
-        placeholder: 'XXXX-XXXX-XXXX-XXXX',
+        placeholder: '0000 0000 0000 0000 00',
         labelText: 'Card number',
         inputmode: 'numeric',
+        mask: maskConfigs.get('card-number'),
       },
       {
         type: 'text',
-        name: 'expiration-date',
+        name: 'date',
         required: true,
         autocomplete: 'cc-exp',
-        placeholder: 'MM/YY',
+        placeholder: 'mm/yy',
         labelText: 'Expiration Date',
         inputmode: 'numeric',
+        mask: maskConfigs.get('card-date'),
       },
       {
-        type: 'number',
+        type: 'text',
         name: 'code',
         required: true,
         autocomplete: 'cc-csc',
-        placeholder: 'XXX',
+        placeholder: '000',
         labelText: 'CVC/CVV',
         inputmode: 'numeric',
+        mask: maskConfigs.get('card-security-code'),
       },
       {
         type: 'email',

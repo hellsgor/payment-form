@@ -1,8 +1,9 @@
-import './Form.scss';
-import { FormProps, IForm } from './Form.types';
 import { el, setChildren } from 'redom';
 import { ButtonInstance } from '../Button/Button';
 import { controlInstance } from '../Control/Control';
+import { IControl } from '../Control/Control.types';
+import './Form.scss';
+import { FormProps, IForm } from './Form.types';
 
 export class FormComponent implements IForm {
   props: FormProps;
@@ -10,6 +11,7 @@ export class FormComponent implements IForm {
   $title: HTMLHeadingElement | null = null;
   $subButton: HTMLButtonElement | null = null;
   $controls: HTMLDivElement | null = null;
+  controls: IControl[] = [];
 
   constructor(props: FormProps) {
     this.props = props;
@@ -21,8 +23,7 @@ export class FormComponent implements IForm {
   }
 
   create(): void {
-    const children: Array<HTMLElement | HTMLDivElement | HTMLButtonElement> =
-      [];
+    const children: Array<HTMLDivElement | HTMLButtonElement> = [];
 
     if (this.props.title) {
       this.$title = el('h2', { className: 'form__heading' }, this.props.title);
@@ -30,14 +31,21 @@ export class FormComponent implements IForm {
     }
 
     this.$controls = el('div', { className: 'form__controls' });
+
     this.props.controls.forEach((controlProps) => {
-      this.$controls?.appendChild(
+      const control: IControl = controlInstance.create({
+        ...controlProps,
+        className: 'form__control',
+      });
+      this.$controls?.appendChild(control.$controlElem);
+      this.controls.push(
         controlInstance.create({
           ...controlProps,
           className: 'form__control',
         }),
       );
     });
+
     children.push(this.$controls);
 
     this.$subButton = ButtonInstance.create({

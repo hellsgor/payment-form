@@ -5,7 +5,7 @@
   display: flex;
   padding-bottom: 18px;
   flex-direction: column;
-  
+
   &__input {
     width: 100%;
     padding: 0.6rem 0 0.2rem;
@@ -16,64 +16,54 @@
     order: 20;
     background-color: transparent;
     color: $text;
-    transition: border-color .3s ease-in-out;
-    
-    &[type="number"] {
-      -moz-appearance: textfield;
-      
-      &::-webkit-outer-spin-button,
-      &::-webkit-inner-spin-button {
-        margin: 0;
-        -webkit-appearance: none;
-      }
-    }
-    
+    transition: border-color 0.3s ease-in-out;
+
     &[required] {
       & + label::after {
         content: 'required';
       }
     }
-    
+
     &::placeholder {
       color: $text-secondary;
     }
-    
-    @media(hover: hover) {
+
+    @media (hover: hover) {
       &:hover {
         border-bottom-color: $accent-hover;
       }
     }
-    
+
     &:focus {
       border-bottom-color: $accent-active;
     }
-    
+
     &_with-error {
       border-bottom-color: $error !important;
     }
   }
-  
+
   &__label {
     display: flex;
     align-items: baseline;
     order: 10;
     column-gap: 4px;
-    font-size: .7rem;
+    font-size: 0.7rem;
     color: $accent;
-    
+
     span {
       color: $text;
     }
   }
-  
+
   &__error {
     position: absolute;
     bottom: 0;
     left: 0;
-    font-size: .7rem;
+    font-size: 0.7rem;
     color: $error;
   }
-  
+
   &_hidden {
     display: none;
   }
