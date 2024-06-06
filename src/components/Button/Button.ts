@@ -1,6 +1,6 @@
+import { el } from 'redom';
 import './Button.scss';
 import { ButtonProps, IButton } from './Button.types';
-import { el } from 'redom';
 
 class ButtonComponent implements IButton {
   create(props: ButtonProps): HTMLButtonElement {
