@@ -1,11 +1,11 @@
-import IMask, { InputMask } from 'imask';
+import IMask, { FactoryArg, InputMask } from 'imask';
 import { el, setChildren } from 'redom';
 import './Control.scss';
 import { ControlProps, IControl, InputProps } from './Control.types';
 
 class ControlComponent {
   create(props: ControlProps): IControl {
-    let mask: null | InputMask = null;
+    let mask: InputMask<FactoryArg> | null = null;
 
     const id: string | null =
       props.id || props.labelText
@@ -28,7 +28,7 @@ class ControlComponent {
       if (id) inputProps.id = id;
 
       const input = el('input', inputProps);
-      mask = props.mask ? IMask(input, { mask: props.mask }) : null;
+      mask = props.mask ? IMask(input, props.mask as FactoryArg) : null;
 
       return input;
     };

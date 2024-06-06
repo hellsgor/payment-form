@@ -1,4 +1,4 @@
-import { InputMask } from 'imask/esm/index';
+import IMask, { FactoryArg, InputMask } from 'imask/esm/index';
 
 export interface IControl {
   $controlElem: HTMLDivElement;
@@ -16,8 +16,32 @@ export interface InputProps {
   inputmode?: string;
   hidden?: boolean;
   value?: number | string;
-  mask?: string;
+  // mask?: IMask;
+  mask?: FactoryArg;
 }
+
+export interface IMaskProps {
+  mask: string | Date;
+  pattern?: string;
+  blocks?: {
+    m?: MaskBlock;
+    y?: MaskBlock;
+  };
+  format?: string;
+  parse?: Date;
+  min?: Date;
+  max?: Date;
+  autofix?: boolean;
+  lazy?: boolean;
+  overwrite?: boolean;
+}
+
+export type MaskBlock = {
+  mask: typeof IMask.MaskedRange;
+  from: number;
+  to: number;
+  maxLength: number;
+};
 
 export type LabelProps = {
   labelText?: string;
