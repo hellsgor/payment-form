@@ -45,21 +45,18 @@ class ControlComponent {
       return labelElem;
     };
 
-    const control: IControl = {
-      $controlElem: el('div', {
-        className: props.hidden
-          ? `${props.className} control control_hidden`
-          : `${props.className} control`,
-      }),
-      mask: mask,
-    };
+    const $controlElem: HTMLDivElement = el('div', {
+      className: props.hidden
+        ? `${props.className} control control_hidden`
+        : `${props.className} control`,
+    });
 
     const controlChildrenArray: HTMLElement[] = [createInput()];
     if (props.labelText) controlChildrenArray.push(createLabel());
     if (!props.hidden) controlChildrenArray.push(createErrorBlock());
-    setChildren(control.$controlElem, controlChildrenArray);
+    setChildren($controlElem, controlChildrenArray);
 
-    return control;
+    return { $controlElem, mask };
   }
 }
 

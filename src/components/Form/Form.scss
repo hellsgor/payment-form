@@ -8,9 +8,9 @@
   border-radius: 8px;
   flex-direction: column;
   align-items: center;
-  background-color: $background-transparently;
+  background-color: $background-secondary;
   row-gap: 2rem;
-  filter: drop-shadow(0 0 200px rgb(100, 108, 255, 0.4));
+  filter: drop-shadow(0 0 12px $accent);
 
   &__controls {
     display: flex;
