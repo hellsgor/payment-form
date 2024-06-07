@@ -24,7 +24,7 @@ export const formsConfig: Config<FormProps> = {
         name: 'date',
         required: true,
         autocomplete: 'cc-exp',
-        placeholder: 'mm/yy',
+        placeholder: '00/00',
         labelText: 'Expiration Date',
         inputmode: 'numeric',
         mask: maskConfigs.get('card-date'),
