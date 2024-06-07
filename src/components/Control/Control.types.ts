@@ -1,4 +1,5 @@
 import IMask, { FactoryArg, InputMask } from 'imask/esm/index';
+import { validationType } from '../../services/Validation/Validation.types';
 
 export interface IControl {
   $controlElem: HTMLDivElement;
@@ -16,7 +17,7 @@ export interface InputProps {
   inputmode?: string;
   hidden?: boolean;
   value?: number | string;
-  // mask?: IMask;
+  validationType?: validationType;
   mask?: FactoryArg;
 }
 
