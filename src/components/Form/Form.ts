@@ -49,6 +49,7 @@ export class FormComponent implements IForm {
       classes: `form__button${
         this.props.button.classes ? ' ' + this.props.button.classes : ''
       }`,
+      disabled: true,
     });
     this.$subButton && children.push(this.$subButton);
 
