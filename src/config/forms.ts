@@ -6,6 +6,7 @@ export const formsConfig: Config<FormProps> = {
   paymentForm: {
     form: {
       name: 'payment',
+      validationEvents: ['blur'],
     },
     title: 'Payment form',
     controls: [

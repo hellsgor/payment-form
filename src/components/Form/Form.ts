@@ -14,9 +14,11 @@ export class FormComponent implements IForm {
   $controls: HTMLDivElement | null = null;
   controls: IControl[] = [];
   schema: ZodObject<ZodRawShape> = z.object({});
+  validationEvents: Array<keyof HTMLElementEventMap>;
 
   constructor(props: FormProps) {
     this.props = props;
+    this.validationEvents = [...props.form.validationEvents, 'change'];
     this.create();
   }
 
@@ -46,7 +48,7 @@ export class FormComponent implements IForm {
         });
       }
 
-      this.$controls?.appendChild(control.$controlElem);
+      this.$controls?.appendChild(control.$control);
       this.controls.push(control);
     });
 
