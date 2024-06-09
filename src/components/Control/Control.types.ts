@@ -2,8 +2,11 @@ import IMask, { FactoryArg, InputMask } from 'imask/esm/index';
 import { ZodSchema } from 'zod';
 
 export interface IControl {
-  $controlElem: HTMLDivElement;
-  mask: null | InputMask;
+  $control: HTMLDivElement;
+  mask: InputMask<FactoryArg> | null;
+  $input: HTMLInputElement;
+  $label: HTMLLabelElement | null;
+  $error: HTMLParagraphElement | null;
 }
 
 export interface InputProps {

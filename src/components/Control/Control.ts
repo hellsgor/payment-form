@@ -1,12 +1,10 @@
-import IMask, { FactoryArg, InputMask } from 'imask';
+import IMask, { FactoryArg } from 'imask';
 import { el, setChildren } from 'redom';
 import './Control.scss';
 import { ControlProps, IControl, InputProps } from './Control.types';
 
 class ControlComponent {
   create(props: ControlProps): IControl {
-    let mask: InputMask<FactoryArg> | null = null;
-
     const id: string | null =
       props.id || props.labelText
         ? `random-id-${(Math.random() * 10000).toFixed(0)}`
@@ -27,10 +25,7 @@ class ControlComponent {
       if (props.value) inputProps.value = props.value;
       if (id) inputProps.id = id;
 
-      const input = el('input', inputProps);
-      mask = props.mask ? IMask(input, props.mask as FactoryArg) : null;
-
-      return input;
+      return el('input', inputProps);
     };
 
     const createErrorBlock = (): HTMLParagraphElement =>
@@ -45,18 +40,25 @@ class ControlComponent {
       return labelElem;
     };
 
-    const $controlElem: HTMLDivElement = el('div', {
-      className: props.hidden
-        ? `${props.className} control control_hidden`
-        : `${props.className} control`,
-    });
+    const $input = createInput();
+    const control = {
+      $control: el('div', {
+        className: props.hidden
+          ? `${props.className} control control_hidden`
+          : `${props.className} control`,
+      }),
+      $label: props.labelText ? createLabel() : null,
+      $error: props.hidden ? null : createErrorBlock(),
+      mask: props.mask ? IMask($input, props.mask as FactoryArg) : null,
+      $input,
+    };
 
-    const controlChildrenArray: HTMLElement[] = [createInput()];
-    if (props.labelText) controlChildrenArray.push(createLabel());
-    if (!props.hidden) controlChildrenArray.push(createErrorBlock());
-    setChildren($controlElem, controlChildrenArray);
+    const controlChildrenArray: HTMLElement[] = [control.$input];
+    if (control.$label) controlChildrenArray.push(control.$label);
+    if (control.$error) controlChildrenArray.push(control.$error);
+    setChildren(control.$control, controlChildrenArray);
 
-    return { $controlElem, mask };
+    return control;
   }
 }
 
