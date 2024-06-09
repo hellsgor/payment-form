@@ -32,12 +32,9 @@ controls.set(controlsTypes.cardNumber, {
   labelText: 'Card number',
   inputmode: 'numeric',
   mask: maskConfigs.get('card-number'),
-  schema: z
-    .string()
-    .regex(
-      /^(?:\d{4} ){3}\d{4}$|^(?:\d{4} ){4}\d{2}$/,
-      'Card number must be 16 or 18 digits',
-    ),
+  schema: z.string().regex(/^(?:\d{4} ){3}\d{4}$|^(?:\d{4} ){4}\d{2}$/, {
+    message: 'Card number must be 16 or 18 digits',
+  }),
 });
 
 controls.set(controlsTypes.expirationDate, {
@@ -51,27 +48,32 @@ controls.set(controlsTypes.expirationDate, {
   mask: maskConfigs.get('card-date'),
   schema: z
     .string()
-    .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, 'Expiry date must be in MM/YY format')
-    .refine((date) => {
-      const [month, year] = date.split('/').map(Number);
+    .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, {
+      message: 'Expiry date must be in MM/YY format',
+    })
+    .refine(
+      (date) => {
+        const [month, year] = date.split('/').map(Number);
 
-      if (!month || !year) {
+        if (!month || !year) {
+          return false;
+        }
+
+        if (year > new Date().getFullYear() % 100) {
+          return true;
+        }
+
+        if (
+          year === new Date().getFullYear() % 100 &&
+          month >= new Date().getMonth() + 1
+        ) {
+          return true;
+        }
+
         return false;
-      }
-
-      if (year > new Date().getFullYear() % 100) {
-        return true;
-      }
-
-      if (
-        year === new Date().getFullYear() % 100 &&
-        month >= new Date().getMonth() + 1
-      ) {
-        return true;
-      }
-
-      return false;
-    }, 'Expiry date must be in the future'),
+      },
+      { message: 'Expiry date must be in the future' },
+    ),
 });
 
 controls.set(controlsTypes.cardSecurityCode, {
@@ -83,7 +85,7 @@ controls.set(controlsTypes.cardSecurityCode, {
   labelText: 'CVC/CVV',
   inputmode: 'numeric',
   mask: maskConfigs.get('card-security-code'),
-  schema: z.string().regex(/^\d{3}$/, 'CVC/CVV must be 3 digits'),
+  schema: z.string().regex(/^\d{3}$/, { message: 'CVC/CVV must be 3 digits' }),
 });
 
 controls.set(controlsTypes.email, {
@@ -93,5 +95,5 @@ controls.set(controlsTypes.email, {
   autocomplete: 'email',
   placeholder: 'Email for check',
   labelText: 'Email',
-  schema: z.string().email('An incorrect email was introduced'),
+  schema: z.string().email({ message: 'An incorrect email was introduced' }),
 });
