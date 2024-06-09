@@ -1,5 +1,4 @@
 import { el, setChildren } from 'redom';
-import { Validation } from '../../services/Validation/Validation';
 import { ButtonInstance } from '../Button/Button';
 import { controlInstance } from '../Control/Control';
 import { IControl } from '../Control/Control.types';
@@ -13,7 +12,6 @@ export class FormComponent implements IForm {
   $subButton: HTMLButtonElement | null = null;
   $controls: HTMLDivElement | null = null;
   controls: IControl[] = [];
-  validation: Validation | null = null;
 
   constructor(props: FormProps) {
     this.props = props;
@@ -35,18 +33,11 @@ export class FormComponent implements IForm {
     this.$controls = el('div', { className: 'form__controls' });
 
     this.props.controls.forEach((controlProps) => {
+      console.log(controlProps);
       const control: IControl = controlInstance.create({
         ...controlProps,
         className: 'form__control',
       });
-
-      if (control.validationType) {
-        if (!this.validation) {
-          this.validation = new Validation({ validationEventType: 'blur' });
-        }
-
-        this.validation.initControlValidation(control);
-      }
 
       this.$controls?.appendChild(control.$controlElem);
       this.controls.push(control);

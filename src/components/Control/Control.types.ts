@@ -1,10 +1,9 @@
 import IMask, { FactoryArg, InputMask } from 'imask/esm/index';
-import { validationType } from '../../services/Validation/Validation.types';
+import { ZodSchema } from 'zod';
 
 export interface IControl {
   $controlElem: HTMLDivElement;
   mask: null | InputMask;
-  validationType?: validationType;
 }
 
 export interface InputProps {
@@ -18,8 +17,8 @@ export interface InputProps {
   inputmode?: string;
   hidden?: boolean;
   value?: number | string;
-  validationType?: validationType;
   mask?: FactoryArg;
+  schema?: ZodSchema;
 }
 
 export interface IMaskProps {

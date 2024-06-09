@@ -56,9 +56,7 @@ class ControlComponent {
     if (!props.hidden) controlChildrenArray.push(createErrorBlock());
     setChildren($controlElem, controlChildrenArray);
 
-    return props.validationType
-      ? { $controlElem, mask, validationType: props.validationType }
-      : { $controlElem, mask };
+    return { $controlElem, mask };
   }
 }
 
