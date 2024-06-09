@@ -46,6 +46,10 @@ export class FormComponent implements IForm {
         this.schema = this.schema.extend({
           [controlProps.name]: controlProps.schema,
         });
+
+        this.validationEvents.forEach((eventType) => {
+          control.$input.addEventListener(eventType, this.validate);
+        });
       }
 
       this.$controls?.appendChild(control.$control);
@@ -66,5 +70,8 @@ export class FormComponent implements IForm {
 
     this.$form = el('form', { name: this.props.form.name, className: 'form' });
     setChildren(this.$form, children);
+  }
+  validate(event: Event): void {
+    console.log(event.target);
   }
 }
