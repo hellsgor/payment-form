@@ -1,4 +1,5 @@
 import { el, setChildren } from 'redom';
+import { ZodObject, ZodRawShape, z } from 'zod';
 import { ButtonInstance } from '../Button/Button';
 import { controlInstance } from '../Control/Control';
 import { IControl } from '../Control/Control.types';
@@ -12,6 +13,7 @@ export class FormComponent implements IForm {
   $subButton: HTMLButtonElement | null = null;
   $controls: HTMLDivElement | null = null;
   controls: IControl[] = [];
+  schema: ZodObject<ZodRawShape> = z.object({});
 
   constructor(props: FormProps) {
     this.props = props;
@@ -33,11 +35,16 @@ export class FormComponent implements IForm {
     this.$controls = el('div', { className: 'form__controls' });
 
     this.props.controls.forEach((controlProps) => {
-      console.log(controlProps);
       const control: IControl = controlInstance.create({
         ...controlProps,
         className: 'form__control',
       });
+
+      if (controlProps.schema) {
+        this.schema = this.schema.extend({
+          [controlProps.name]: controlProps.schema,
+        });
+      }
 
       this.$controls?.appendChild(control.$controlElem);
       this.controls.push(control);
