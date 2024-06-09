@@ -13,3 +13,7 @@ export const validationTypes = {
 } as const;
 
 export type validationType = keyof typeof validationTypesEnum;
+
+export type ValidationProps = {
+  validationEventType: keyof HTMLElementEventMap;
+};

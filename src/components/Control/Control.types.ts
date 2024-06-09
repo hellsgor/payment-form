@@ -4,6 +4,7 @@ import { validationType } from '../../services/Validation/Validation.types';
 export interface IControl {
   $controlElem: HTMLDivElement;
   mask: null | InputMask;
+  validationType?: validationType;
 }
 
 export interface InputProps {

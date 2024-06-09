@@ -1,4 +1,5 @@
-import { ControlProps } from '../Control/Control.types';
+import { Validation } from '../../services/Validation/Validation';
+import { ControlProps, IControl } from '../Control/Control.types';
 
 export type FormProps = {
   form: {
@@ -20,6 +21,8 @@ export interface IForm {
   $controls: HTMLDivElement | null;
   props: FormProps;
   form: HTMLFormElement;
+  validation: Validation | null;
+  controls: IControl[];
 
   create(): void;
 }
