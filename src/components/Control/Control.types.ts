@@ -9,6 +9,10 @@ export interface IControl {
   $error: HTMLParagraphElement | null;
 }
 
+export type IControlWithTouched = IControl & {
+  isTouched: boolean;
+};
+
 export interface InputProps {
   className: string;
   type?: string;

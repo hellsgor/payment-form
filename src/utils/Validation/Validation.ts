@@ -1,5 +1,9 @@
 import { ZodObject, ZodRawShape, z } from 'zod';
-import { ControlProps, IControl } from '../../components/Control/Control.types';
+import {
+  ControlProps,
+  IControl,
+  IControlWithTouched,
+} from '../../components/Control/Control.types';
 import {
   CorrectCallback,
   IValidation,
@@ -9,7 +13,7 @@ import {
 export class Validation implements IValidation {
   schema: ZodObject<ZodRawShape> = z.object({});
   validationEvents: Array<keyof HTMLElementEventMap>;
-  controls: Array<IControl> = [];
+  controls: Array<IControlWithTouched> = [];
   correctCallback: CorrectCallback;
   incorrectCallback: IncorrectCallback;
 
@@ -29,11 +33,15 @@ export class Validation implements IValidation {
     });
   }
 
-  addValidationEvents(control: IControl): void {
+  addValidationEvents(control: IControlWithTouched): void {
     this.validationEvents.forEach((eventType) => {
       control.$input.addEventListener(eventType, (event) => {
         this.validate(event);
       });
+    });
+
+    control.$input.addEventListener('focus', () => {
+      control.isTouched = true;
     });
   }
 
@@ -42,9 +50,11 @@ export class Validation implements IValidation {
     control: IControl,
   ): void {
     this.extendSchema(controlProps);
-    this.addValidationEvents(control);
 
-    this.controls.push(control);
+    const tempControl: IControlWithTouched = { ...control, isTouched: false };
+    this.addValidationEvents(tempControl);
+
+    this.controls.push(tempControl);
   }
 
   validate(event: Event): void {
