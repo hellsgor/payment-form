@@ -9,6 +9,7 @@ class ButtonComponent implements IButton {
       {
         className: `${props.classes} button`,
         type: props.type,
+        disabled: props.disabled ? props.disabled : false,
       },
       props.text || '',
     );

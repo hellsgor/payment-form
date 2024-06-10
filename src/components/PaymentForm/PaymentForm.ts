@@ -24,7 +24,7 @@ export class PaymentFormComponent
       value: `${this.paymentAmount}`,
     });
     this.controls.push(amountControl);
-    this.$controls?.appendChild(amountControl.$controlElem);
+    this.$controls?.appendChild(amountControl.$control);
 
     if (this.$subButton) {
       this.$subButton.textContent += ` ${this.paymentAmount}$`;

@@ -1,4 +1,5 @@
 import { el, setChildren } from 'redom';
+import { ZodObject, ZodRawShape, z } from 'zod';
 import { ButtonInstance } from '../Button/Button';
 import { controlInstance } from '../Control/Control';
 import { IControl } from '../Control/Control.types';
@@ -12,9 +13,12 @@ export class FormComponent implements IForm {
   $subButton: HTMLButtonElement | null = null;
   $controls: HTMLDivElement | null = null;
   controls: IControl[] = [];
+  schema: ZodObject<ZodRawShape> = z.object({});
+  validationEvents: Array<keyof HTMLElementEventMap>;
 
   constructor(props: FormProps) {
     this.props = props;
+    this.validationEvents = [...props.form.validationEvents, 'change'];
     this.create();
   }
 
@@ -37,10 +41,22 @@ export class FormComponent implements IForm {
         ...controlProps,
         className: 'form__control',
       });
-      this.$controls?.appendChild(control.$controlElem);
+
+      if (controlProps.schema) {
+        this.schema = this.schema.extend({
+          [controlProps.name]: controlProps.schema,
+        });
+
+        this.validationEvents.forEach((eventType) => {
+          control.$input.addEventListener(eventType, (event) => {
+            this.validate(event);
+          });
+        });
+      }
+
+      this.$controls?.appendChild(control.$control);
       this.controls.push(control);
     });
-
     children.push(this.$controls);
 
     this.$subButton = ButtonInstance.create({
@@ -49,10 +65,45 @@ export class FormComponent implements IForm {
       classes: `form__button${
         this.props.button.classes ? ' ' + this.props.button.classes : ''
       }`,
+      disabled: true,
     });
     this.$subButton && children.push(this.$subButton);
 
     this.$form = el('form', { name: this.props.form.name, className: 'form' });
     setChildren(this.$form, children);
+  }
+  validate(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    let controlsValues = {};
+
+    this.controls.forEach((control) => {
+      controlsValues = {
+        ...controlsValues,
+        [control.$input.name]: control.$input.value,
+      };
+    });
+
+    const validationResult = this.schema.safeParse(controlsValues);
+
+    if (!validationResult.success) {
+      if (this.$subButton && !this.$subButton.hasAttribute('disabled'))
+        this.$subButton.setAttribute('disabled', 'true');
+
+      const $error = this.controls.find(
+        (control) => control.$input.name === target.name,
+      )?.$error;
+
+      const errorText = validationResult.error
+        .format()
+        [target.name]?._errors.join(', ');
+
+      if (!$error || !errorText) {
+        return;
+      }
+
+      $error.textContent = errorText;
+    } else {
+      this.$subButton && this.$subButton.removeAttribute('disabled');
+    }
   }
 }
