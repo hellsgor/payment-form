@@ -87,22 +87,24 @@ export class FormComponent implements IForm {
     const validationResult = this.schema.safeParse(controlsValues);
 
     if (!validationResult.success) {
-      if (this.$subButton && !this.$subButton.hasAttribute('disabled'))
+      if (this.$subButton && !this.$subButton.hasAttribute('disabled')) {
         this.$subButton.setAttribute('disabled', 'true');
+      }
 
-      const $error = this.controls.find(
+      const control = this.controls.find(
         (control) => control.$input.name === target.name,
-      )?.$error;
+      );
+      const $error = control!.$error;
 
-      const errorText = validationResult.error
-        .format()
-        [target.name]?._errors.join(', ');
+      const errorText =
+        validationResult.error.format()[target.name]?._errors[0];
 
       if (!$error || !errorText) {
         return;
       }
 
       $error.textContent = errorText;
+      control!.$control.classList.add('control_with-error');
     } else {
       this.$subButton && this.$subButton.removeAttribute('disabled');
     }

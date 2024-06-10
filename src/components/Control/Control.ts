@@ -43,7 +43,7 @@ export class ControlComponent {
     };
 
     control.$input.addEventListener('input', () => {
-      this.clearErrorContent();
+      this.clearError();
     });
 
     const controlChildrenArray: HTMLElement[] = [control.$input];
@@ -86,9 +86,13 @@ export class ControlComponent {
     return labelElem;
   }
 
-  protected clearErrorContent(): void {
-    if (this._control && this._control?.$error) {
-      this._control.$error.textContent = '';
+  protected clearError(): void {
+    if (this._control) {
+      if (this._control?.$error) {
+        this._control.$error.textContent = '';
+      }
+
+      this._control.$control.classList.remove('control_with-error');
     }
   }
 }

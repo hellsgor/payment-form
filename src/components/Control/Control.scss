@@ -74,9 +74,17 @@
     left: 0;
     font-size: 0.7rem;
     color: $error;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
   }
 
-  &_hidden {
-    display: none;
+  &_with-error {
+    .control__error {
+      opacity: 1;
+    }
+
+    .control__input {
+      border-color: $error;
+    }
   }
 }
