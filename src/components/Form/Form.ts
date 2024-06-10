@@ -1,7 +1,7 @@
 import { el, setChildren } from 'redom';
 import { ZodObject, ZodRawShape, z } from 'zod';
 import { ButtonInstance } from '../Button/Button';
-import { controlInstance } from '../Control/Control';
+import { ControlComponent } from '../Control/Control';
 import { IControl } from '../Control/Control.types';
 import './Form.scss';
 import { FormProps, IForm } from './Form.types';
@@ -37,10 +37,11 @@ export class FormComponent implements IForm {
     this.$controls = el('div', { className: 'form__controls' });
 
     this.props.controls.forEach((controlProps) => {
-      const control: IControl = controlInstance.create({
+      const controlInstance = new ControlComponent({
         ...controlProps,
         className: 'form__control',
       });
+      const control: IControl = controlInstance.control;
 
       if (controlProps.schema) {
         this.schema = this.schema.extend({
