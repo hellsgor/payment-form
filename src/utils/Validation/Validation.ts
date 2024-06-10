@@ -64,7 +64,10 @@ export class Validation implements IValidation {
     const validationResult = this.schema.safeParse(controlsValues);
 
     if (!validationResult.success) {
-      this.incorrectCallback();
+      if (this.controls.every((control) => control.isTouched === true)) {
+        this.incorrectCallback();
+      }
+
       validationResult.error.format()[target.name]?._errors[0] &&
         this.showError(
           validationResult.error.format()[target.name]!._errors[0]!,
