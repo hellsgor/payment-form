@@ -53,6 +53,12 @@ class ControlComponent {
       $input,
     };
 
+    control.$input.addEventListener('input', () => {
+      if (control.$error && control.$error.textContent) {
+        control.$error.textContent = '';
+      }
+    });
+
     const controlChildrenArray: HTMLElement[] = [control.$input];
     if (control.$label) controlChildrenArray.push(control.$label);
     if (control.$error) controlChildrenArray.push(control.$error);
