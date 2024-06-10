@@ -87,6 +87,8 @@ export class FormComponent implements IForm {
     const validationResult = this.schema.safeParse(controlsValues);
 
     if (!validationResult.success) {
+      this.$form?.classList.remove('form_correct');
+      this.$form?.classList.add('form_incorrect');
       if (this.$subButton && !this.$subButton.hasAttribute('disabled')) {
         this.$subButton.setAttribute('disabled', 'true');
       }
@@ -107,6 +109,8 @@ export class FormComponent implements IForm {
       control!.$control.classList.add('control_with-error');
     } else {
       this.$subButton && this.$subButton.removeAttribute('disabled');
+      this.$form?.classList.remove('form_incorrect');
+      this.$form?.classList.add('form_correct');
     }
   }
 }
