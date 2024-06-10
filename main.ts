@@ -1,8 +1,8 @@
-import './styles/index.scss';
 import { el, mount } from 'redom';
-import { formsConfig } from './config/forms';
-import { IPaymentForm } from './components/PaymentForm/PaymentForm.types';
-import { PaymentFormComponent } from './components/PaymentForm/PaymentForm';
+import { PaymentFormComponent } from './src/components/PaymentForm/PaymentForm';
+import { IPaymentForm } from './src/components/PaymentForm/PaymentForm.types';
+import { formsConfig } from './src/config/forms';
+import './src/styles/index.scss';
 
 const paymentFormConfigKey: string = 'paymentForm';
 const app = el('#app');

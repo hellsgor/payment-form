@@ -1,3 +1,4 @@
+import { Validation } from '../../utils/Validation/Validation';
 import { ControlProps, IControl } from '../Control/Control.types';
 
 export type FormProps = {
@@ -22,7 +23,9 @@ export interface IForm {
   props: FormProps;
   form: HTMLFormElement;
   controls: IControl[];
-  validationEvents: Array<keyof HTMLElementEventMap>;
+  validation: Validation | null;
 
   create(): void;
+  makeIncorrect(): void;
+  makeCorrect(): void;
 }

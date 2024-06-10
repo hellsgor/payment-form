@@ -3,60 +3,47 @@ import { el, setChildren } from 'redom';
 import './Control.scss';
 import { ControlProps, IControl, InputProps } from './Control.types';
 
-class ControlComponent {
-  create(props: ControlProps): IControl {
+export class ControlComponent {
+  protected props: ControlProps;
+  protected _control: IControl | undefined;
+
+  constructor(props: ControlProps) {
+    this.props = props;
+    this._control = undefined;
+  }
+
+  get control(): IControl {
+    if (!this._control) {
+      this._control = this.create();
+    }
+
+    return this._control;
+  }
+
+  protected create(): IControl {
     const id: string | null =
-      props.id || props.labelText
+      !this.props.id || this.props.labelText
         ? `random-id-${(Math.random() * 10000).toFixed(0)}`
         : null;
 
-    const createInput = (): HTMLInputElement => {
-      const inputProps: InputProps = {
-        className: 'control__input',
-        type: props.type ? props.type : 'text',
-        name: props.name,
-      };
+    const $input = this.createInput(id);
 
-      if (props.required) inputProps.required = true;
-      if (props.autocomplete) inputProps.autocomplete = props.autocomplete;
-      if (props.placeholder) inputProps.placeholder = props.placeholder;
-      if (props.inputmode) inputProps.inputmode = props.inputmode;
-      if (props.hidden) inputProps.hidden = props.hidden;
-      if (props.value) inputProps.value = props.value;
-      if (id) inputProps.id = id;
-
-      return el('input', inputProps);
-    };
-
-    const createErrorBlock = (): HTMLParagraphElement =>
-      el('p', { className: 'control__error' });
-
-    const createLabel = (): HTMLLabelElement => {
-      const labelElem: HTMLLabelElement = el('label', {
-        className: 'control__label',
-        for: id,
-      });
-      setChildren(labelElem, [el('span', {}, props.labelText!)]);
-      return labelElem;
-    };
-
-    const $input = createInput();
     const control = {
       $control: el('div', {
-        className: props.hidden
-          ? `${props.className} control control_hidden`
-          : `${props.className} control`,
+        className: this.props.hidden
+          ? `${this.props.className} control control_hidden`
+          : `${this.props.className} control`,
       }),
-      $label: props.labelText ? createLabel() : null,
-      $error: props.hidden ? null : createErrorBlock(),
-      mask: props.mask ? IMask($input, props.mask as FactoryArg) : null,
+      $label: this.props.labelText && id ? this.createLabel(id) : null,
+      $error: this.props.hidden ? null : this.createErrorBlock(),
+      mask: this.props.mask
+        ? IMask($input, this.props.mask as FactoryArg)
+        : null,
       $input,
     };
 
     control.$input.addEventListener('input', () => {
-      if (control.$error && control.$error.textContent) {
-        control.$error.textContent = '';
-      }
+      this.clearError();
     });
 
     const controlChildrenArray: HTMLElement[] = [control.$input];
@@ -66,6 +53,46 @@ class ControlComponent {
 
     return control;
   }
-}
 
-export const controlInstance: ControlComponent = new ControlComponent();
+  protected createInput(id: string | null): HTMLInputElement {
+    const inputProps: InputProps = {
+      className: 'control__input',
+      type: this.props.type ? this.props.type : 'text',
+      name: this.props.name,
+    };
+
+    if (this.props.required) inputProps.required = true;
+    if (this.props.autocomplete)
+      inputProps.autocomplete = this.props.autocomplete;
+    if (this.props.placeholder) inputProps.placeholder = this.props.placeholder;
+    if (this.props.inputmode) inputProps.inputmode = this.props.inputmode;
+    if (this.props.hidden) inputProps.hidden = this.props.hidden;
+    if (this.props.value) inputProps.value = this.props.value;
+    if (id) inputProps.id = id;
+
+    return el('input', inputProps);
+  }
+
+  protected createErrorBlock(): HTMLParagraphElement {
+    return el('p', { className: 'control__error' });
+  }
+
+  protected createLabel(id: string): HTMLLabelElement {
+    const labelElem: HTMLLabelElement = el('label', {
+      className: 'control__label',
+      for: id,
+    });
+    setChildren(labelElem, [el('span', {}, this.props.labelText!)]);
+    return labelElem;
+  }
+
+  protected clearError(): void {
+    if (this._control) {
+      if (this._control?.$error) {
+        this._control.$error.textContent = '';
+      }
+
+      this._control.$control.classList.remove('control_with-error');
+    }
+  }
+}
