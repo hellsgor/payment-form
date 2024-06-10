@@ -48,14 +48,15 @@ export class FormComponent implements IForm {
         });
 
         this.validationEvents.forEach((eventType) => {
-          control.$input.addEventListener(eventType, this.validate);
+          control.$input.addEventListener(eventType, (event) => {
+            this.validate(event);
+          });
         });
       }
 
       this.$controls?.appendChild(control.$control);
       this.controls.push(control);
     });
-
     children.push(this.$controls);
 
     this.$subButton = ButtonInstance.create({
@@ -72,6 +73,37 @@ export class FormComponent implements IForm {
     setChildren(this.$form, children);
   }
   validate(event: Event): void {
-    console.log(event.target);
+    const target = event.target as HTMLInputElement;
+    let controlsValues = {};
+
+    this.controls.forEach((control) => {
+      controlsValues = {
+        ...controlsValues,
+        [control.$input.name]: control.$input.value,
+      };
+    });
+
+    const validationResult = this.schema.safeParse(controlsValues);
+
+    if (!validationResult.success) {
+      if (this.$subButton && !this.$subButton.hasAttribute('disabled'))
+        this.$subButton.setAttribute('disabled', 'true');
+
+      const $error = this.controls.find(
+        (control) => control.$input.name === target.name,
+      )?.$error;
+
+      const errorText = validationResult.error
+        .format()
+        [target.name]?._errors.join(', ');
+
+      if (!$error || !errorText) {
+        return;
+      }
+
+      $error.textContent = errorText;
+    } else {
+      this.$subButton && this.$subButton.removeAttribute('disabled');
+    }
   }
 }
