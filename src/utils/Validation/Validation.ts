@@ -49,36 +49,42 @@ export class Validation implements IValidation {
 
   validate(event: Event): void {
     const target = event.target as HTMLInputElement;
-    let controlsValues = {};
-
-    this.controls.forEach((control) => {
-      controlsValues = {
-        ...controlsValues,
-        [control.$input.name]: control.$input.value,
-      };
-    });
+    const controlsValues = this.getControlsValues();
 
     const validationResult = this.schema.safeParse(controlsValues);
 
     if (!validationResult.success) {
       this.incorrectCallback();
-
-      const control = this.controls.find(
-        (control) => control.$input.name === target.name,
-      );
-      const $error = control!.$error;
-
-      const errorText =
-        validationResult.error.format()[target.name]?._errors[0];
-
-      if (!$error || !errorText) {
-        return;
-      }
-
-      $error.textContent = errorText;
-      control!.$control.classList.add('control_with-error');
+      validationResult.error.format()[target.name]?._errors[0] &&
+        this.showError(
+          validationResult.error.format()[target.name]!._errors[0]!,
+          target.name,
+        );
     } else {
       this.correctCallback();
     }
+  }
+
+  showError(errorText: string, targetControlName: string): void {
+    const control = this.controls.find(
+      (control) => control.$input.name === targetControlName,
+    );
+    const $error = control!.$error;
+
+    if (!$error || !errorText) {
+      return;
+    }
+
+    $error.textContent = errorText;
+    control!.$control.classList.add('control_with-error');
+  }
+
+  getControlsValues(): Record<string, string> {
+    return this.controls.reduce((values, control) => {
+      if (!control.$input.name || !control.$input) {
+        return values;
+      }
+      return { ...values, [control.$input.name]: control.$input.value };
+    }, {});
   }
 }
